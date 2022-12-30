@@ -3,7 +3,7 @@
 
 #define VEC(x, y) ((Vector2) {x, y})
 
-#define SPEED           250.0f
+#define SPEED           10.0f
 #define PLAYER_RADIUS   12.0f
 
 static const int screen_width = 320;
@@ -12,6 +12,8 @@ static const int screen_height= 256;
 static Vector2 player_position;
 static Vector2 player_velocity; // current velocity
 static Vector2 player_acceleration; // velocity to achive
+// Velocity :: speed at any time.
+// Acceleration :: change in speed at any time.
 
 static void init() {
     player_position = (Vector2) { screen_width*0.5f, screen_height*0.5f};
@@ -19,13 +21,11 @@ static void init() {
 }
 
 static void update() {
-    if (IsKeyDown(KEY_W)) player_acceleration      = VEC(0.0, -SPEED);
-    else if (IsKeyDown(KEY_S)) player_acceleration = VEC(0.0, SPEED);
-    else if (IsKeyDown(KEY_A)) player_acceleration = VEC(-SPEED, 0.0);
-    else if (IsKeyDown(KEY_D)) player_acceleration = VEC(SPEED, 0.0);
-    else player_acceleration = VEC(0.0, 0.0);
+    Vector2 direction_to_mouse = Vector2Normalize(Vector2Subtract(GetMousePosition(), player_position));
 
-    player_velocity = Vector2Lerp(player_velocity, player_acceleration, 5.0 * GetFrameTime());
+    player_acceleration = Vector2Scale(direction_to_mouse, SPEED);
+
+    player_velocity = Vector2Add(player_velocity, player_acceleration);
     player_position = Vector2Add(player_position, Vector2Scale(player_velocity, GetFrameTime()));
 
     // stoping enemy from moving out of screen
