@@ -13,7 +13,7 @@ static Vector2 player_position;
 static Vector2 player_velocity; // current velocity
 static Vector2 player_acceleration; // velocity to achive
 // Velocity :: speed at any time.
-// Acceleration :: change in speed at any time.
+// Acceleration :: change in velocity at any time.
 
 static void init() {
     player_position = (Vector2) { screen_width*0.5f, screen_height*0.5f};
