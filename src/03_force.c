@@ -23,6 +23,7 @@ typedef struct {
 static void apply_force(Vector2* acceleration, Vector2 force) {
     *acceleration = Vector2Add(*acceleration, force);
 }
+
 static void erase_force(Vector2* acceleration) {
     *acceleration = VEC(0.0, 0.0);
 }
